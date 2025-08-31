@@ -75,11 +75,28 @@ blogRouter.post('/', async (c) => {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
 
-    const blogs=await prisma.blog.findMany()
+    try{
+    const blogs=await prisma.blog.findMany({
+      select:{
+        content:true,
+        title:true,
+        id:true,
+        author:{
+          select:{
+            name:true
+          }
+        }
+      }
+    })
 
     return c.json({
         blogs
     })
+    }
+    catch(e){
+      console.error("Bulk route error",e)
+      return c.json({error:(e as Error).message||"internal server error"},500)
+    }
     
   })
   
@@ -92,6 +109,16 @@ blogRouter.post('/', async (c) => {
     try{const blog=await prisma.blog.findFirst({
         where:{
             id:Number(id)
+        },
+        select:{
+          id:true,
+          title:true,
+          content:true,
+          author:{
+            select:{
+              name:true
+            }
+          }
         }
     })
     return c.json({

@@ -37,12 +37,18 @@ userRouter.post('/signup', async (c) => {
           name: body.name
         }
       })
+      console.log("User created",user)
+
       const jwt=await sign({
         id:user.id
       },c.env.JWT_SECRET)
+      console.log("JWT generateed",jwt)
+
       return c.text(jwt)
     } catch (e) {
-      c.status(411)
+      
+      console.error("error in signup route",e)
+      c.status(500)
       return c.text("invalid")
     }
   })

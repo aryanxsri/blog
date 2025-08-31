@@ -1,0 +1,1 @@
+export const BACKEND_URL="https://abc.aryanmedium.workers.dev"
