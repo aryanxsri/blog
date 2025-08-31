@@ -11,7 +11,7 @@ export const Publish=()=>{
     const navigate=useNavigate()
 
     return <div>
-        <Appbar user={user}/>
+        <Appbar/>
 
      <div className="flex justify-center">
      <div className=" max-w-screen-lg w-full py-10">
